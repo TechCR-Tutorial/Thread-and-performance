@@ -19,6 +19,7 @@ public class JoinCheck {
         List<FactorialThread> factorialThreads = new ArrayList<>(1);
         inputNumbers.forEach(aLong -> factorialThreads.add(new FactorialThread(aLong)));
         for (FactorialThread factorialThread : factorialThreads) {
+            factorialThread.setDaemon(true);
             factorialThread.start();
         }
 
@@ -27,6 +28,10 @@ public class JoinCheck {
          */
         for (FactorialThread factorialThread : factorialThreads) {
             factorialThread.join();
+            //if you want to only wait some time (ex: 2000ms) and even though calculation not finished you can use
+            //factorialThread.join(2000);
+            // if you use this you have to makes sure interrupt thread. other wise thread will not stop even
+            //main thread stopped. to do that refer line 22 - factorialThread.setDaemon(true);
         }
 
         for (int i = 0; i < inputNumbers.size(); i++) {
